@@ -1,0 +1,15 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Local login automation demo</title>
+<style>body{font:18px system-ui;max-width:650px;margin:60px auto;background:#f5f7fb;color:#172238}label,input{display:block;margin:12px 0}input,button{padding:10px}#home,#modal{padding:24px;background:white;border:1px solid #aaa}#loginError{color:#a00020}</style></head>
+<body><h1 id="loginTitle">Local login demo</h1><p>Synthetic browser fixture. This is not Wufoo or a secure authentication service.</p>
+<form id="loginForm" novalidate><label for="emailInput">Email</label><input id="emailInput" type="email" autocomplete="off">
+<label for="passwordLogin">Password</label><input id="passwordLogin" type="password" autocomplete="off">
+<input type="submit" value="LOGIN"><p id="loginError" role="alert" hidden></p></form>
+<section id="home" hidden><h1>Forms</h1><div id="modal" role="dialog" aria-label="Welcome"><p>Welcome to the local demo.</p><button type="button" aria-label="Close Modal">Close</button></div></section>
+<script>
+const form=document.querySelector('#loginForm'),error=document.querySelector('#loginError');
+form.addEventListener('submit',event=>{event.preventDefault();const email=document.querySelector('#emailInput').value.trim(),password=document.querySelector('#passwordLogin').value;
+if(!email||!password){error.textContent='Email and password are required.';error.hidden=false;return;}
+if(email!=='demo@example.test'||password!=='demo-only-password'){error.textContent='Invalid email or password.';error.hidden=false;return;}
+error.hidden=true;form.hidden=true;document.querySelector('#loginTitle').hidden=true;document.querySelector('#home').hidden=false;});
+document.querySelector('[aria-label="Close Modal"]').addEventListener('click',()=>document.querySelector('#modal').hidden=true);
+</script></body></html>

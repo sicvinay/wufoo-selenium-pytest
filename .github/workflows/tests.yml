@@ -1,0 +1,25 @@
+name: Selenium UI and Python exercises
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.12', '3.13', '3.14']
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+      - run: python -m pip install -r requirements.txt
+      - name: Real browser UI and exercise checks
+        run: python -m pytest -n 2 -m "not live" --html=reports/report.html --self-contained-html --junitxml=reports/junit.xml
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: selenium-reports-${{ matrix.python }}
+          path: reports/
